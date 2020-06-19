@@ -3,7 +3,7 @@ services:
   web:
     build: .
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:80"
-    container_name: music_service
+    container_name: scale_stress
     volumes:
       - .:/pydash
     ports:

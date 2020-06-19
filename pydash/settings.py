@@ -26,6 +26,7 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 ADMINS = (
+    
 )
 
 MANAGERS = ADMINS
@@ -44,6 +45,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = (
+    'pydash',
     #'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

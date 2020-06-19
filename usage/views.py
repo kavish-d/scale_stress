@@ -115,6 +115,27 @@ def getcpus(request, name):
     response.write(data)
     return response
 
+@login_required(login_url='/login/')
+def blowup(request):
+    data = {}
+    try:
+        value=request.GET.get('value', None)
+        time=request.GET.get('time', None)
+        if not value or not time:
+            data['status']='Give both value '    
+        # exe=f'''stress-ng --cpu {value}  --timeout {time}  $op &> /dev/null 2> /dev/null & '''
+        else:
+            exe=f'bash strss.sh {value} {time}'
+            stream = os.popen(exe)
+            data['status']='Started at '+stream.read()
+            stream.close()
+    except Exception:
+        data['status']='Error'
+    data = json.dumps(data)
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    response.write(data)
+    return response
 
 @login_required(login_url='/login/')
 def uptime(request):
