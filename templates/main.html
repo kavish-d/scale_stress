@@ -95,8 +95,9 @@
             <div class="widget-content">
                 <br>
               <div style="text-align:center;">
-                <b>Enter Number of cpu cores to stress</b>
-                <input type="number"  id="values">
+                <b id=textInput>Enter cpu load to stress in % = null</b>
+                <input type="range"  id="values" min="0" max="100" onchange="document.getElementById('textInput').innerHTML='Enter cpu load to stress in = '+this.value+' %';">
+<!--                 <span><label id="textInput"></label></span> -->
                 <br />
                 <b>Enter time of stress s for sec m for min</b>
 <!--                 <input type="number"  id="names"> -->
