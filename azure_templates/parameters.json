@@ -12,7 +12,7 @@
       "value": "password"
     },
     "adminPasswordOrKey": {
-      "value": "KD1234#"
+      "value": "apassword1234#"
     },
     "dnsLabelPrefix": {
       "value": "[toLower(concat('simplelinuxvm-', uniqueString(resourceGroup().id)))]"
