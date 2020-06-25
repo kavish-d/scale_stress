@@ -1,0 +1,140 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_ubuntu1_name": {
+            "defaultValue": "ubuntu1_backuop",
+            "type": "String"
+        },
+        "disks_ubuntu1_OsDisk_1_1e4b23420bed4d7da67c6b86df040b81_externalid": {
+            "defaultValue": "/subscriptions/fd344370-f370-4215-acb3-318e196c0b9c/resourceGroups/AIOPS/providers/Microsoft.Compute/disks/ubuntu1_OsDisk_1_1e4b23420bed4d7da67c6b86df040b81",
+            "type": "String"
+        },
+        "networkInterfaces_ubuntu1265_externalid": {
+            "defaultValue": "/subscriptions/fd344370-f370-4215-acb3-318e196c0b9c/resourceGroups/AIOps/providers/Microsoft.Network/networkInterfaces/ubuntu1265",
+            "type": "String"
+        }
+    },
+    "variables": {
+    "OSDiskName": "ubuntu1_redeploy_disk",
+    "vmName": "ubuntu_backupp",
+    "subnetName": "[concat(variables('vmName'), 'subnet')]",
+    "publicIPAddressName": "[concat(variables('vmName'), 'PublicIP')]",
+    "publicIPAddressType": "Dynamic",
+    "nicName": "[concat(variables('vmName'), 'nic1')]",
+    "virtualNetworkName": "[concat(variables('vmName'), 'VNET')]",
+    "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
+    "vmStorageAccountName": "[concat('vmstorage', uniqueString(resourceGroup().id))]",
+    "dnsNameForPublicIP": "[parameters('dnsNameForPublicIP')]",
+    "nsg":"[resourceId('Microsoft.Network/networkSecurityGroups'), 'nsg')]"
+  },
+  "resources": [
+        {
+            "type": "Microsoft.Compute/disks",
+            "apiVersion": "2019-07-01",
+            "name": "ubuntu1_redeploy_disk",
+            "location": "westus",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "osType": "Linux",
+                "hyperVGeneration": "V1",
+                "creationData": {
+                    "createOption": "FromImage",
+                    "imageReference": {
+                        "id": "/Subscriptions/fd344370-f370-4215-acb3-318e196c0b9c/Providers/Microsoft.Compute/Locations/westus/Publishers/Canonical/ArtifactTypes/VMImage/Offers/UbuntuServer/Skus/18.04-LTS/Versions/18.04.202003170"
+                    }
+                },
+                "diskSizeGB": 30,
+                "diskIOPSReadWrite": 500,
+                "diskMBpsReadWrite": 60,
+                "encryption": {
+                    "type": "EncryptionAtRestWithPlatformKey"
+                }
+            }
+        },
+                {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-04-01",
+            "name": "[variables('nicName')]",
+            "location": "westus",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+                            },
+                            "subnet": {
+                                "id":"[variables('subnetRef')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[variables('nsg')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            "name": "[parameters('virtualMachines_ubuntu1_name')]",
+            "location": "westus",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B2ms"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "18.04-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[variables('OSDiskName')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "id": "[resourceId('Microsoft.Network/disk', variables('OSDiskName'))]"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_ubuntu1_name')]",
+                    "adminUsername": "kavish",
+                    "adminPassword": "KD1234#",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false,
+                        "provisionVMAgent": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
