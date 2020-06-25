@@ -1,15 +1,39 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "virtualMachines_ubuntu1_name": {
-            "value": null
-        },
-        "disks_ubuntu1_OsDisk_1_1e4b23420bed4d7da67c6b86df040b81_externalid": {
-            "value": null
-        },
-        "networkInterfaces_ubuntu1265_externalid": {
-            "value": null
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "value": "simpleLinuxVM"
+    },
+    "adminUsername": {
+      "value": "kavish"
+    },
+    "authenticationType": {
+      "value": "password"
+    },
+    "adminPasswordOrKey": {
+      "value": "KD1234#"
+    },
+    "dnsLabelPrefix": {
+      "value": "[toLower(concat('simplelinuxvm-', uniqueString(resourceGroup().id)))]"
+    },
+    "ubuntuOSVersion": {
+      "value": "18.04-LTS"
+    },
+    "location": {
+      "value": "[resourceGroup().location]"
+    },
+    "VmSize": {
+      "value": "Standard_B2ms"
+    },
+    "virtualNetworkName": {
+      "value": "vNet"
+    },
+    "subnetName": {
+      "value": "Subnet"
+    },
+    "networkSecurityGroupName": {
+      "value": "SecGroupNet"
     }
+  }
 }
