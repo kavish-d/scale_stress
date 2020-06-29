@@ -24,6 +24,6 @@ ADD . /pydash/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-RUN touch db.sqlite3
+#RUN touch db.sqlite3
 
 RUN chmod 777 strss.sh
