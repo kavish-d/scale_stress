@@ -7,7 +7,9 @@ ENV PYTHONUNBUFFERED 1
 
 ENV admin_name=admin
 
-ENV admin_password=pass
+ENV admin_password=admin
+
+ENV deploy_date=`date`
 
 RUN echo $admin_name
 
