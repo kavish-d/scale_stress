@@ -55,11 +55,11 @@ def platform(request, name):
     """
     Return the hostname
     """
-    getplatform = get_platform()
-    hostname = getplatform['hostname']
+    #getplatform = get_platform()
+    hostname = ''#getplatform['hostname']
     #osname = getplatform['osname']
     osname = 'ubuntu @'+os.environ['deploy_date']
-    kernel = getplatform['kernel']
+    kernel = 'linux'#getplatform['kernel']
 
     data = {}
 
