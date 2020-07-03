@@ -9,7 +9,8 @@ ENV admin_name=admin
 
 ENV admin_password=admin
 
-RUN  export deploy_date=$(date)
+RUN  export deploy_date=backup
+#$(date)
 
 RUN echo $admin_name
 
