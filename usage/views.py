@@ -57,7 +57,8 @@ def platform(request, name):
     """
     getplatform = get_platform()
     hostname = getplatform['hostname']
-    osname = getplatform['osname']
+    #osname = getplatform['osname']
+    osname = 'ubuntu @'+os.environ['deploy_date']
     kernel = getplatform['kernel']
 
     data = {}
