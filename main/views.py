@@ -340,6 +340,10 @@ def get_netstat():
 
 #@login_required(login_url='/login/')
 def getall(request):
+    cc=get_cpu_usage()
+    if (cc['used']/(cc['free']+cc['used']))*100>60:
+        content = {'Service unavailable': 'H/W limit reached'+str((cc['used']/(cc['used']+cc['free']))*100)}
+        return Response(content, status=status.HTTP_503_SERVICE_UNAVAILABLE)
     return render_to_response('main.html', {'time_refresh': time_refresh,
                                             'time_refresh_long': time_refresh_long,
                                             'time_refresh_net': time_refresh_net,
