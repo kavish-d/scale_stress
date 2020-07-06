@@ -25,6 +25,7 @@ import os
 import multiprocessing
 from datetime import timedelta
 
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
@@ -337,13 +338,17 @@ def get_netstat():
 
     return data
 
-
-#@login_required(login_url='/login/')
-def getall(request):
+def probecheck(request):
     cc=get_cpu_usage()
+    content = {'Success': 'H/W Available'+str((cc['used']/(cc['used']+cc['free']))*100)}
+    stat=200
     if (cc['used']/(cc['free']+cc['used']))*100>60:
         content = {'Service unavailable': 'H/W limit reached'+str((cc['used']/(cc['used']+cc['free']))*100)}
-        return Response(content, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        stat=503
+    return HttpResponse(status=stat)
+    
+#@login_required(login_url='/login/')
+def getall(request):
     return render_to_response('main.html', {'time_refresh': time_refresh,
                                             'time_refresh_long': time_refresh_long,
                                             'time_refresh_net': time_refresh_net,
