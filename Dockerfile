@@ -16,7 +16,7 @@ RUN echo $admin_password
 
 RUN echo $deploy_date
 
-RUN apt-get update && apt-get -y install stress-ng
+# RUN apt-get update && apt-get -y install stress-ng
 
 RUN mkdir /pydash
 
@@ -24,7 +24,7 @@ WORKDIR  /pydash
 
 ADD . /pydash/
 
-RUN pip install --upgrade pip
+# RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 #RUN touch db.sqlite3

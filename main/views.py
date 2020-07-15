@@ -186,7 +186,7 @@ def get_platform():
         if osname == '  ':
             osname = uname[0]
 
-        data = {'osname': osname+'@'+os.environ['deploy_date'], 'hostname': uname[1], 'kernel': uname[2]}
+        data = {'osname': osname+'@'+os.environ.get('deploy_date'), 'hostname': uname[1], 'kernel': uname[2]}
 
     except Exception as err:
         data = str(err)

@@ -56,8 +56,8 @@ def platform(request, name):
     """
     #getplatform = get_platform()
     try:
-        hostname = os.environ['deploy_date']
-        osname = 'ubuntu @'+os.environ['deploy_date']
+        hostname = os.environ.get('deploy_date')
+        osname = 'ubuntu @'+os.environ.get('deploy_date')
     except:
         hostname=''
         osname='ubuntu'
@@ -132,7 +132,7 @@ def blowup(request):
             stream = os.popen(exe)
             data['status']='Started at '+stream.read()
             stream.close()
-            set_lat(5)#int(value)//10
+            set_lat(9)#int(value)//10
     except Exception:
         data['status']='Error'
     data = json.dumps(data)
