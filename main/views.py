@@ -342,7 +342,7 @@ def probecheck(request):
     cc=get_cpu_usage()
     content = {'Success': 'H/W Available'+str((cc['used']/(cc['used']+cc['free']))*100)}
     stat=200
-    if (cc['used']/(cc['free']+cc['used']))*100>50 and get_lat()>6:
+    if (cc['used']/(cc['free']+cc['used']))*100>50 and get_lat()>10:
         content = {'Service unavailable': 'H/W limit reached'+str((cc['used']/(cc['used']+cc['free']))*100)}
         stat=503
     return HttpResponse(status=stat)
