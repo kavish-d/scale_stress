@@ -9,12 +9,13 @@ ENV admin_name=admin
 
 ENV admin_password=admin
 
-RUN  export deploy_date=backup
-#$(date)
+ENV deploy_date=backup
 
 RUN echo $admin_name
 
 RUN echo $admin_password
+
+RUN echo $deploy_date
 
 RUN apt-get update && apt-get -y install stress-ng
 

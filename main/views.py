@@ -32,7 +32,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 
 from pydash.settings import TIME_JS_REFRESH, TIME_JS_REFRESH_LONG, TIME_JS_REFRESH_NET, VERSION
-
+from pydash.views import get_lat
 time_refresh = TIME_JS_REFRESH
 time_refresh_long = TIME_JS_REFRESH_LONG
 time_refresh_net = TIME_JS_REFRESH_NET
@@ -342,7 +342,7 @@ def probecheck(request):
     cc=get_cpu_usage()
     content = {'Success': 'H/W Available'+str((cc['used']/(cc['used']+cc['free']))*100)}
     stat=200
-    if (cc['used']/(cc['free']+cc['used']))*100>60:
+    if (cc['used']/(cc['free']+cc['used']))*100>50 and get_lat()>6:
         content = {'Service unavailable': 'H/W limit reached'+str((cc['used']/(cc['used']+cc['free']))*100)}
         stat=503
     return HttpResponse(status=stat)

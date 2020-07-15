@@ -26,8 +26,7 @@ from django.http import HttpResponse
 
 from main.views import *
 from pydash.settings import TIME_JS_REFRESH, TIME_JS_REFRESH_LONG, TIME_JS_REFRESH_NET
-
-
+from pydash.views import set_lat
 time_refresh = TIME_JS_REFRESH
 time_refresh_long = TIME_JS_REFRESH_LONG
 time_refresh_net = TIME_JS_REFRESH_NET
@@ -56,9 +55,12 @@ def platform(request, name):
     Return the hostname
     """
     #getplatform = get_platform()
-    hostname = ''#getplatform['hostname']
-    #osname = getplatform['osname']
-    osname = 'ubuntu @'+os.environ['deploy_date']
+    try:
+        hostname = os.environ['deploy_date']
+        osname = 'ubuntu @'+os.environ['deploy_date']
+    except:
+        hostname=''
+        osname='ubuntu'
     kernel = 'linux'#getplatform['kernel']
 
     data = {}
@@ -130,6 +132,7 @@ def blowup(request):
             stream = os.popen(exe)
             data['status']='Started at '+stream.read()
             stream.close()
+            set_lat(5)#int(value)//10
     except Exception:
         data['status']='Error'
     data = json.dumps(data)
