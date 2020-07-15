@@ -1,5 +1,4 @@
 FROM python:3.8.3
-#FROM ubuntu:latest
 
 ENV C_FORCE_ROOT 1
 
