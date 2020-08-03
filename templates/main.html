@@ -20,6 +20,7 @@
     <div class="navbar-inner">
     <div class="container">
             <a class="brand" href="/">pyDash v{{ version }}</a>
+            <div style=" position:relative; left:29%; text-align: center;"><div class="brand" >Host Code:</div><div class="brand" id='host-high'></div></div>
             <ul class="btn btn-mini">
                 {% if request.user.is_authenticated or user.is_authenticated %}
                         <a href="{% url 'logout' %}">{% trans "Sign out" %}</a>
@@ -352,14 +353,17 @@
     <script src="{% static "js/excanvas.js" %}"></script>
 <![endif]-->
 <script type="text/javascript">
-window.alert = function() {};
+aa=window.alert 
+window.alert= function() {};
 function senddata(){
 	 value =$("#values").val();
                     time = $("#times").val();
 //                     name =$("#names").val()
             $.getJSON(`/info/blowup?time=${time}&value=${value}`, function(data) {
             	console.log(data);
-//                 alert(data.status);
+            	window.alert =aa;
+                alert(data.status);
+                window.alert= function() {};
                 $("#values").val("");
                 $("#times").val("");
                 // $("#names").val("");
@@ -461,6 +465,7 @@ $(function pageLoad() {
     dashboard.getUsers();
     dashboard.getNetstat();
     dashboard.getIps();
+    
     });
 </script>
 

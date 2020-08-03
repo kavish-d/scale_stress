@@ -108,6 +108,7 @@ dashboard.getOSname = function () {
 };
 
 dashboard.getHostname = function () {
+    get_os_data('/info/platform/hostname/', "#host-high");
     get_os_data('/info/platform/hostname/', "#get-hostname");
 };
 
